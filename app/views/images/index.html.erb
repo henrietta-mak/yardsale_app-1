@@ -1,0 +1,38 @@
+<% provide(:title, 'All images') %>
+<h1> All images </h1>
+
+<% if @images.any? %>
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Image for</th>
+        <th>Image</th>
+        <th>Uploaded by</th>
+        <th>Uploaded</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @images.each do |image| %>
+        <tr>
+          <td><%= link_to truncate(image.yardsale.title), image.yardsale %></td>
+          <td><%= image_tag image.image_url(:thumb).to_s %></td>
+          <td><%= link_to "#{image.yardsale.user.first_name} #{image.yardsale.user.last_name}", image.yardsale.user %></td>
+          <td><%= time_ago_in_words(image.created_at) %> ago</td>
+          <td>
+            <%= link_to image.yardsale, :class => "btn btn-success" do %>
+              <i class="icon-eye-open"></i> view
+            <% end %>
+            <% if current_user.admin? || current_user?(image.user)%>
+              <%= link_to yardsale_image_path(image.yardsale, image), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+                <i class="icon-trash"></i> delete
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h2>There arn't any images</h2>
+<% end %>

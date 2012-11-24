@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  username: MyString
+  email: MyString
+  password_digest: MyString
+  remember_token: MyString
+  password_reset_token: MyString
+  password_reset_sent_at: 2012-11-20 21:54:22
+  admin: false
+
+two:
+  first_name: MyString
+  last_name: MyString
+  username: MyString
+  email: MyString
+  password_digest: MyString
+  remember_token: MyString
+  password_reset_token: MyString
+  password_reset_sent_at: 2012-11-20 21:54:22
+  admin: false

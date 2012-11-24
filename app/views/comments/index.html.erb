@@ -1,0 +1,44 @@
+<% provide(:title, @title) %>
+<h1><%= @title %></h1>
+
+<% if @comments.any? %>
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Commented on</th>
+        <th>Comment</th>
+        <% if @title == "All comments" %>
+          <th>Added by</th>
+        <% end %>
+        <th>Added</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @comments.each do |comment| %>
+        <tr>
+          <td><%= link_to truncate(comment.yardsale.title), comment.yardsale %></td>
+          <td><%= comment.comment %></td>
+          <% if @title == "All comments" %>
+            <td><%= link_to "#{comment.yardsale.user.first_name} #{comment.yardsale.user.last_name}", comment.yardsale.user %></td>
+          <% end %>
+          <td><%= time_ago_in_words(comment.created_at) %> ago</td>
+          <td>
+            <%= link_to comment.yardsale, :class => "btn btn-success" do %>
+              <i class="icon-eye-open"></i> view
+            <% end %>
+            <%= link_to yardsale_comment_path(comment.yardsale, comment), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+              <i class="icon-trash"></i> delete
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <% if @title == "All coments" %>
+    <h2>There arn't any comments</h2>
+  <% else %>
+    <h2>You have no comments</h2>
+  <% end %>
+<% end %>

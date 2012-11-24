@@ -1,0 +1,37 @@
+<div class="center hero-unit">
+  <h2>Images</h2>
+  <hr/>
+  <% if @yardsale.images.any? %>
+    <% if current_user.admin? || current_user?(@yardsale.user) %>
+      <% @yardsale.images.each do |image| %>
+        <%= image_tag image.image_url(:thumb).to_s %>
+        <%= link_to yardsale_image_path(@yardsale, image), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+          <i class="icon-trash"></i> delete
+        <% end %>
+      <% end %>
+    <% else %>
+      <% @yardsale.images.each do |image| %>
+        <%= image_tag image.image_url(:thumb).to_s %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <h2>There aren't any images</h2>
+  <% end %>
+
+  <% if current_user?(@yardsale.user) %>
+    <hr/>
+    <%= form_for :image, :url => yardsale_images_path(@yardsale), :html => {:multipart => true} do |f| %>
+      <%= f.hidden_field :yardsale_id %>
+
+      <%= f.file_field :image %>
+
+      <%= f.label :remote_image_url, "or image url" %>
+      <%= f.text_field :remote_image_url %>
+
+      <%= f.label :note %>
+      <%= f.text_field :note %>
+
+      <%= f.submit "Add image", :class => "btn btn-large btn-primary" %>
+    <% end %>
+  <% end %>
+</div>

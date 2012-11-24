@@ -1,0 +1,73 @@
+<div class="span3">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <% if signed_in? %>
+        <li class="nav-header"><i class="icon-user"></i><%= "#{current_user.first_name} #{current_user.last_name}" %></li>
+        <li><%= current_user.username %></li>
+        <li><%= current_user.email %></li>
+        <li>Created <%= time_ago_in_words(current_user.created_at) %> ago.</li>
+        <hr/>
+        <div class="center">
+          <%= link_to edit_user_path(current_user), :class => "btn btn-large btn-warning" do %>
+            <i class="icon-pencil"></i> Edit profile
+          <% end %>
+        </div>
+        <hr/>
+        <li class="nav-header"><i class="icon-book"></i><%= pluralize(current_user.yardsales.count, "yard sale") %></li>
+        <li>
+          <%= link_to user_comments_path(current_user) do %>
+            <i class="icon-comment"></i> My comments ( <%= current_user.comments.count %> )
+          <% end %>
+        </li>
+        <% if current_user.admin? %>
+          <li>
+            <%= link_to comments_path do %>
+              <i class="icon-list-alt"></i> All comments ( <%= Comment.count %> )
+            <% end %>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to categories_path do %>
+            <i class="icon-tags"></i> All categories ( <%= Category.count %> )
+          <% end %>
+        </li>
+        <li>
+          <%= link_to images_path do %>
+            <i class="icon-picture"></i> All images ( <%= Image.count %> )
+          <% end %>
+        </li>
+        <hr/>
+          <li>
+            <%= link_to user_followed_yardsales_path(current_user) do %>
+              <i class="icon-shopping-cart"></i> Followed yard sales ( <%= current_user.relationships.count %> )
+            <% end %>
+          </li>
+          <li>
+            <div class="center">
+              <%= link_to maps_path, :class => "btn btn-large btn-primary" do %>
+                <i class="icon-map-marker"></i> Generate route map
+              <% end %>
+            </div>
+          </li>
+        <hr/>
+        <div class="center">
+          <%= link_to new_yardsale_path, :class => "btn btn-large btn-primary" do %>
+            Create a new yard sale <br><i class="icon-plus"></i>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="center">
+          <%= link_to "Sign up now!", signup_path, :class => "btn btn-large btn-primary" %>
+        </div>
+      <% end %>
+      <hr/>
+      <li class="nav-header"><i class="icon-search"></i>Search</li>
+      <%= form_tag search_path, :method => 'get' do %>
+        <%= text_field_tag :search, params[:search], :placeholder => "Search by title" %>
+        <div class="center">
+          <%= submit_tag "Search", :name => nil, :class => "btn btn-large btn-primary" %>
+        </div>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<% provide(:title, "Forgot password") %>
+<h1>Forgot password</h1>
+
+<div class="row-fluid">
+  <div class="span3"></div>
+  <div class="span6 offset3">
+    <%= form_tag resets_path do %>
+    
+      <%= label_tag :email %>
+      <%= text_field_tag :email, params[:email] %>
+
+      <%= submit_tag "Reset password", :class => "btn btn-large btn-primary" %>
+      <%= link_to "Cancel", root_path, :class => "btn btn-large" %>
+    <% end %>
+  </div>
+  <div class="span3"></div>
+</div>

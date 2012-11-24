@@ -1,0 +1,45 @@
+<% provide(:title, 'Sign up') %>
+<h1>Sign up</h1>
+
+<div class="span3"></div>
+<div class="span6 offset3">
+  <%= form_for setup_user(@user) do |f| %>
+    <%= render 'shared/error_messages', :object => f.object %>
+    
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+
+    <%= f.label :username, "Choose your username" %>
+    <%= f.text_field :username %>
+
+    <%= f.label :email, "Your current email address" %>
+    <%= f.email_field :email %>
+
+    <%= f.fields_for :address do |a| %>
+      <%= a.label :street %>
+      <%= a.text_field :street %>
+
+      <%= a.label :city %>
+      <%= a.text_field :city %>
+
+      <%= a.label :state %>
+      <%= a.text_field :state %>
+      
+      <%= a.label :zip_code %>
+      <%= a.text_field :zip_code %>
+    <% end %>
+
+    <%= f.label :password, "Create a new password" %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation, "Confirm your password" %>
+    <%= f.password_field :password_confirmation %>
+
+    <%= f.submit "Create my account", :class => "btn btn-large btn-primary" %>
+    <%= link_to "Cancel", root_path, :class => "btn btn-large" %>
+  <% end %>
+</div>
+<div class="span3"></div>

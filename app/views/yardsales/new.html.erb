@@ -1,0 +1,43 @@
+<% provide(:title, 'New yard sale') %>
+<h1>New yard sale</h1>
+
+<div class="span3"></div>
+<div class="span6 offset3">
+  <%= form_for setup_yardsale(@yardsale) do |f| %>
+    <%= render 'shared/error_messages', :object => f.object %>
+    
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <%= f.label :date %>
+    <%= f.text_field :date %>
+
+    <%= f.label :begin_time, "Begin Time" %>
+    <%= f.text_field :begin_time %>
+
+    <%= f.label :end_time, "End Time" %>
+    <%= f.text_field :end_time %>
+
+    <%= f.fields_for :address do |a| %>
+      <%= a.label :street %>
+      <%= a.text_field :street %>
+
+      <%= a.label :city %>
+      <%= a.text_field :city %>
+
+      <%= a.label :state %>
+      <%= a.text_field :state %>
+        
+      <%= a.label :zip_code %>
+      <%= a.text_field :zip_code %>
+    <% end %>
+
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+
+    <br><br>
+    <%= f.submit "Create my yardsale", :class => "btn btn-large btn-primary" %>
+    <%= link_to "Cancel", current_user, :class => "btn btn-large" %>
+  <% end %>
+</div>
+<div class="span3"></div>

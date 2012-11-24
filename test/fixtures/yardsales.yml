@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  title: MyString
+  date: 2012-11-20
+  begin_time: 2012-11-20 21:54:30
+  end_time: 2012-11-20 21:54:30
+  description: MyText
+  view_count: 1
+
+two:
+  user: 
+  title: MyString
+  date: 2012-11-20
+  begin_time: 2012-11-20 21:54:30
+  end_time: 2012-11-20 21:54:30
+  description: MyText
+  view_count: 1

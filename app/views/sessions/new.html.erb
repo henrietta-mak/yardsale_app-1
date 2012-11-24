@@ -1,0 +1,23 @@
+<% provide(:title, "Sign in") %>
+<h1>Sign in</h1>
+
+<div class="span3"></div>
+<div class="span6 offset3">
+  <%= form_for :session, :url => sessions_path do |f| %>
+  
+    <%= f.label :username %>
+    <%= f.text_field :username %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <p>Remember me <%= check_box_tag :remember_me, 1, params[:remember_me] %></p>
+    
+    <%= f.submit "Sign in", :class => "btn btn-large btn-primary" %>
+    <%= link_to "Cancel", root_path, :class => "btn btn-large" %>
+  <% end %>
+
+  <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+  <p>Forgot your password? <%= link_to "Reset password!", new_reset_path %></p>
+</div>
+<div class="span3"></div>

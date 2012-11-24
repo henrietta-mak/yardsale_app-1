@@ -1,0 +1,54 @@
+<% provide(:title, 'Followers') %>
+<h1>Followers</h1>
+
+<% if @relationships.any? %>
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Comments</th>
+        <% if current_user.admin? %>
+          <th>Actions</th>
+        <% else %>
+          <th>Action</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @relationships.each do |relationship| %>
+        <tr>
+          <td><%= link_to "#{relationship.user.first_name} #{relationship.user.last_name}", relationship.user %></td>
+          <td><%= relationship.user.username %></td>
+          <td><%= relationship.user.email %></td>
+          <td><%= relationship.user.comments.where(:yardsale_id => relationship.yardsale).count %></td>
+          <td>
+            <%= link_to relationship.user, :class => "btn btn-success" do %>
+              <i class="icon-eye-open"></i> view
+            <% end %>
+            <% if current_user?(relationship.user) %>
+              <%= link_to yardsale_relationship_path(relationship.yardsale, relationship), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn" do %>
+                <i class="icon-trash"></i> unfollow
+              <% end %>
+            <% end %>
+            <% if current_user.admin? %>
+              <% if current_user?(relationship.user) %>
+                <%= link_to edit_user_path(relationship.user), :class => "btn btn-warning" do %>
+                  <i class="icon-pencil"></i> edit
+                <% end %>
+              <% else %>
+                <%= link_to relationship.user, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+                  <i class="icon-remove"></i> delete
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @relationships %>
+<% else %>
+  <h2>This yard sale has no followers</h2>
+<% end %>

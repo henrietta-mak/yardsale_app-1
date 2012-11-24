@@ -1,0 +1,41 @@
+<div class="center hero-unit">
+  <h2>Categories</h2>
+  <hr/>
+  <% if @yardsale.categories.any? %>
+    <table class="table table-bordered table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @yardsale.categories.each do |category| %>
+          <tr>
+            <td><%= link_to category.name, category %></td>
+            <td>
+              <%= link_to category, :class => "btn btn-success" do %>
+                <i class="icon-eye-open"></i> view
+              <% end %>
+              <% if current_user?(@yardsale.user) %>
+                <%= link_to yardsale_categorising_path(@yardsale.id, Categorising.find_by_yardsale_id_and_category_id(@yardsale.id, category)), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+                  <i class="icon-trash"></i> remove
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <h2>There aren't any categories</h2>
+  <% end %>
+
+  <% if current_user?(@yardsale.user) %>
+    <hr/>
+    <%= form_for :category, :url => yardsale_categorising_index_path(@yardsale) do |f| %>
+      <%= f.text_field :name, :placeholder => "Category" %>
+      <%= f.submit "Add category", :class => "btn btn-large btn-primary" %>
+    <% end %>
+  <% end %>
+</div>

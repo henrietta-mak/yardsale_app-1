@@ -1,0 +1,23 @@
+<% provide(:title, 'All yard sales') %>
+<h1>All yardsales</h1>
+
+<% if @yardsales.any? %>
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Duration</th>
+        <th>Address</th>
+        <th>Added by</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @yardsales %>
+    </tbody>
+  </table>
+  <%= will_paginate %>
+<% else %>
+  <h2>There aren't any yardsales</h2>
+<% end %>

@@ -1,0 +1,20 @@
+<tr>
+  <td><%= link_to truncate(yardsale.title, :length => 10), yardsale %></td>
+  <td><%= yardsale.date.strftime("%b %d, %Y (%A)") %></td>
+  <td><%= yardsale.begin_time.strftime("%I:%M %p") %> - <%= yardsale.end_time.strftime("%I:%M %p") %></td>
+  <td><%= yardsale.address.street %> <br> <%= yardsale.address.city %>, <%= yardsale.address.state %> <br> <%= yardsale.address.zip_code %></td>
+  <td><%= link_to "#{yardsale.user.first_name} #{yardsale.user.last_name}", yardsale.user %></td>
+  <td>
+    <%= link_to yardsale, :class => "btn btn-success" do %>
+      <i class="icon-eye-open"></i> view
+    <% end %>
+    <% if current_user?(yardsale.user) %>
+      <%= link_to edit_yardsale_path(yardsale), :class => "btn btn-warning" do %>
+        <i class="icon-pencil"></i> edit
+      <% end %>
+    <% end %>
+    <%= link_to yardsale, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+      <i class="icon-trash"></i> delete
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,22 @@
+<tr>
+  <td><%= link_to "#{user.first_name} #{user.last_name}", user %></td>
+  <td><%= user.username %></td>
+  <td><%= user.email %></td>
+  <td><%= user.yardsales.count %></td>
+  <td><%= user.comments.count %></td>
+  <td><%= time_ago_in_words(user.created_at) %> ago</td>
+  <td>
+    <%= link_to user, :class => "btn btn-success" do %>
+      <i class="icon-eye-open"></i> view
+    <% end %>
+    <% if current_user?(user) %>
+      <%= link_to edit_user_path(user), :class => "btn btn-warning" do %>
+        <i class="icon-pencil"></i> edit
+      <% end %>
+    <% else %>
+      <%= link_to user, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+        <i class="icon-remove"></i> delete
+      <% end %>
+    <% end %>
+  </td>
+</tr>

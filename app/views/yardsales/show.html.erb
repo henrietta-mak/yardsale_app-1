@@ -1,0 +1,40 @@
+<% provide(:title, @yardsale.title) %>
+<h3><%= @yardsale.title %></h3>
+
+<ol class="yardsales">
+  <li>
+    <% if !current_user?(@yardsale.user) %>
+      <%= render 'follow_form' %>
+    <% end %>
+    <apan class="content">Date: <%= @yardsale.date.strftime("%b %d, %Y (%A)") %></apan>
+    <apan class="content">Duration: <%= @yardsale.begin_time.strftime("%I:%M %p") %> - <%= @yardsale.end_time.strftime("%I:%M %p") %></apan>
+    <td>Address: <%= @yardsale.address.street %>, <%= @yardsale.address.city %>, <%= @yardsale.address.state %>, <%= @yardsale.address.zip_code %></td>
+    <span class="content">Description: <%= @yardsale.description %></span>
+    <% if current_user?(@yardsale.user)  %>
+      <span class="timestamp">Posted <%= time_ago_in_words(@yardsale.created_at) %> ago.</span>
+    <% else %>
+      <span class="timestamp">Posted by <%= "#{@yardsale.user.first_name} #{@yardsale.user.last_name}" %> <%= time_ago_in_words(@yardsale.created_at) %> ago.</span>
+    <% end %>
+    <%= link_to map_path(@yardsale), :class => "btn btn-primary" do %>
+      <i class="icon-map-marker"></i> map
+    <% end %>
+    <% if current_user?(@yardsale.user) %>
+      <%= link_to yardsale_following_users_path(@yardsale), :class => "btn btn-primary" do %>
+        <i class="icon-arrow-down"></i><%= "followers (#{@yardsale.relationships.count})" %>
+      <% end %>
+    <% end %>
+    <% if current_user.admin? || current_user?(@yardsale.user) %>
+      <% if current_user?(@yardsale.user) %>
+        <%= link_to edit_yardsale_path(@yardsale), :class => "btn btn-warning" do %>
+          <i class="icon-pencil"></i> edit
+        <% end %>
+      <% end %>
+      <%= link_to @yardsale, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+        <i class="icon-trash"></i> delete
+      <% end %>
+    <% end %>
+  </li>
+</ol>
+<%= render 'category' %>
+<%= render 'image' %>
+<%= render 'comment' %>

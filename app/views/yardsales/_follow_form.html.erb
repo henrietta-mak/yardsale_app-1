@@ -1,0 +1,9 @@
+<% if @yardsale.relationships.where(:user_id => current_user).any? %>
+  <%= form_for :relationship, :url => yardsale_relationship_path(@yardsale, Relationship.find_by_user_id_and_yardsale_id(current_user, @yardsale)), :method => :delete do |f| %>
+    <%= f.submit "Unfollow", :class => "float-right btn btn-large" %>
+  <% end %>
+<% else %>
+  <%= form_for :relationship, :url => yardsale_relationships_path(@yardsale) do |f| %>
+    <%= f.submit "Follow", :class => "float-right btn btn-large btn-primary" %>
+  <% end %>
+<% end %>

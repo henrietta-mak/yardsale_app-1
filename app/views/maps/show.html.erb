@@ -1,0 +1,35 @@
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyDuNtPEYSi7TyLD5CvSMq75PZ0f2wDSYg4&sensor=false" %>
+<script type="text/javascript">
+
+  var coordinates = new google.maps.LatLng(<%=@yardsale.address.latitude%>, <%=@yardsale.address.longitude%>);
+  var information = <%= @information.html_safe %>
+ 
+  function generate_map() {
+    var mapOptions = {
+      center: coordinates,
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+    var markerOptions = {
+      map: map,
+      position: coordinates
+    };
+    var marker = new google.maps.Marker(markerOptions);
+
+    google.maps.event.addListener(marker, 'click', function() {add_info();});
+
+    function add_info() {
+      var infoWindowOptions = {
+        content: information
+      };
+      new google.maps.InfoWindow(infoWindowOptions).open(map, marker);
+    }
+  }
+</script>
+
+<body onload="generate_map()">
+  <div id="map_canvas" class="span9" style="width:70%; height:500px;"></div>
+  <%= link_to "Back", @yardsale, :class => "btn btn-large" %>
+</body>

@@ -1,0 +1,23 @@
+<% provide(:title, "Reset password") %>
+<h1>Reset password</h1>
+
+<div class="row-fluid">
+  <div class="span3"></div>
+  <div class="span6 offset3">
+    <%= form_for @user, :url => reset_path(params[:id]) do |f| %>
+      <%= render 'shared/error_messages', :object => f.object %>
+      
+      <%= f.label :password, "Create a new password" %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation, "Confirm your password" %>
+      <%= f.password_field :password_confirmation %>
+
+      <p>Remember me <%= check_box_tag :remember_me, 1, params[:remember_me] %></p>
+
+      <%= f.submit "Update Password", :class => "btn btn-large btn-primary" %>
+      <%= link_to "Cancel", root_path, :class => "btn btn-large" %>
+    <% end %>
+  </div>
+  <div class="span3"></div>
+</div>

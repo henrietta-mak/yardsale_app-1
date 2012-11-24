@@ -1,0 +1,43 @@
+<% provide(:title, 'Following') %>
+<h1>Following</h1>
+
+<% if @relationships.any? %>
+  <table class="table table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Duration</th>
+        <th>Address</th>
+        <th>Added by</th>
+        <% if current_user.admin? %>
+          <th>Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @relationships.each do |relationship| %>
+        <tr>
+          <td><%= link_to truncate(relationship.yardsale.title, :length => 10), relationship.yardsale %></td>
+          <td><%= relationship.yardsale.date.strftime("%b %d, %Y (%A)") %></td>
+          <td><%= relationship.yardsale.begin_time.strftime("%I:%M %p") %> - <%= relationship.yardsale.end_time.strftime("%I:%M %p") %></td>
+          <td><%= relationship.yardsale.address.street %> <br> <%= relationship.yardsale.address.city %>, <%= relationship.yardsale.address.state %> <br> <%= relationship.yardsale.address.zip_code %></td>
+          <td><%= link_to "#{relationship.yardsale.user.first_name} #{relationship.yardsale.user.last_name}", relationship.yardsale.user %></td>
+          <td>
+            <%= link_to relationship.yardsale, :class => "btn btn-success" do %>
+              <i class="icon-eye-open"></i> view
+            <% end %>
+            <% if current_user?(relationship.user) %>
+              <%= link_to yardsale_relationship_path(relationship.yardsale, relationship), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn" do %>
+                <i class="icon-trash"></i> unfollow
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @relationships %>
+<% else %>
+  <h2>You are not following any yard sales</h2>
+<% end %>

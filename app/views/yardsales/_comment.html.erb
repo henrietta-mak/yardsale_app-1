@@ -1,0 +1,46 @@
+<div class="center hero-unit">
+  <h2>Comments</h2>
+  <hr/>
+  <% if @yardsale.comments.any? %>
+    <table class="table table-bordered table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Comment</th>
+          <th>Added by</th>
+          <th>Added</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @yardsale.comments.each do |comment| %>
+          <tr>
+            <td><%= comment.comment %></td>
+            <td> Added by 
+              <% if current_user?(@yardsale.user)  %>
+                you
+              <% else %>
+                <%= "#{@yardsale.user.first_name} #{@yardsale.user.last_name}" %>
+              <% end %>
+            </td>
+            <td><%= time_ago_in_words(comment.created_at) %> ago.</td>
+            <td>
+              <% if current_user.admin? || current_user?(@yardsale.user) || current_user?(comment.user) %>
+                <%= link_to yardsale_comment_path(@yardsale, comment), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+                  <i class="icon-trash"></i> delete
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <h2>There aren't any comments</h2>
+  <% end %>
+
+  <hr/>
+  <%= form_for :comment, :url => yardsale_comments_path(@yardsale) do |f| %>
+    <%= f.text_field :comment %>
+    <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
+  <% end %>
+</div>

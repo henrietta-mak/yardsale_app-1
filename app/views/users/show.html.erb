@@ -1,0 +1,38 @@
+<% provide(:title, "#{@user.first_name} #{@user.last_name}") %>
+
+<% if !current_user?(@user) %>
+  <h1>User information</h1>
+  <table class="table table-bordered table-condensed table-hover">
+    <tr>
+      <th>Firat Name</th>
+      <td><%= @user.first_name %></td>
+      <th>Last Name</th>
+      <td><%= @user.last_name %></td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td><%= @user.email %></td>
+      <th>Username</th>
+      <td><%= @user.username %></td>
+    </tr>
+    <tr>
+      <th>Yardsales</th>
+      <td><%= @user.yardsales.count %></td>
+      <th>Comments</th>
+      <td><%= @user.comments.count %></td>
+    </tr>
+    <% if current_user.admin? %>
+      <tr>
+        <th>Created</th>
+        <td><%= time_ago_in_words(@user.created_at) %> ago</td>
+        <th>Action</th>
+        <td>
+          <%= link_to @user, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger" do %>
+              <i class="icon-remove"></i> delete
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+<%= render 'show_yardsales' %>

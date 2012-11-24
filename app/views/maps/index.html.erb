@@ -1,0 +1,49 @@
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?key=AIzaSyDuNtPEYSi7TyLD5CvSMq75PZ0f2wDSYg4&sensor=false" %>
+<script type="text/javascript">
+
+  var addresses = <%=@addresses.html_safe%>;
+  var information = <%= @information.html_safe %>
+  var iterator = 0;
+
+  function generate_map() {
+
+    var mapOptions = {
+      center: new google.maps.LatLng(addresses[iterator].latitude, addresses[iterator].longitude),
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+    for (var i = 0; i < <%=@count%>; i++) {
+      setTimeout(function() { drop_mark(map); }, i * 200);
+    }
+  }
+
+
+  function drop_mark(map) {
+    var markerOptions = {
+      map: map,
+      position: new google.maps.LatLng(addresses[iterator].latitude, addresses[iterator].longitude),
+      draggable: false,
+      animation: google.maps.Animation.DROP
+    };
+    var marker = new google.maps.Marker(markerOptions);
+
+    google.maps.event.addListener(marker, 'click', (function(marker, iterator) {
+      return function() {
+        var infoWindowOptions = {
+          content: information[iterator]
+        };
+        var infowindow = new google.maps.InfoWindow(infoWindowOptions).open(map, marker);
+      }
+    })(marker, iterator));
+
+    iterator++;
+  }
+
+</script>
+
+<body onload="generate_map()">
+  <div id="map_canvas" class="span9" style="width: 70%; height: 500px;"></div>
+  <%= link_to "Back", current_user, :class => "btn btn-large" %>
+</body>
